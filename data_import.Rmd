@@ -6,6 +6,7 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+library(readxl)
 library(tidyverse)
 ```
 
@@ -14,7 +15,18 @@ library(tidyverse)
 
 ```{r}
 ## reads in dataset
-litters_data = read_csv(file= "./data/FAS_litters.csv")
+litters_data = read_csv(file = "./data/FAS_litters.csv",
+  col_types = cols(
+    Group = col_character(),
+    `Litter Number` = col_character(),
+    `GD0 weight` = col_double(),
+    `GD18 weight` = col_double(),
+    `GD of Birth` = col_integer(),
+    `Pups born alive` = col_integer(),
+    `Pups dead @ birth` = col_integer(),
+    `Pups survive` = col_integer()
+  )
+)
 litters_data = janitor::clean_names(litters_data)
 ```
 ```{r}
@@ -22,4 +34,15 @@ litters_data = janitor::clean_names(litters_data)
 pup_data = read_csv(file = "./data/FAS_pups.csv")
 pup_data = janitor::clean_names(pup_data)
 ```
+#read in an excel file
+```{r}
+mlb11_data = read_excel(path = "./data/mlb11.xlsx",
+                        range = "A1:D7")
+```
+
+#read in SAS
+```{r}
+pulse_data = haven::read_sas("./data/public_pulse_data.sas7bdat")
+```
+
 
